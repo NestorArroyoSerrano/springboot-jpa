@@ -13,6 +13,12 @@ public interface PersonRepository extends CrudRepository<Person, Long>{
     @Query("select p.name from Person p where p.id=?1")
     String getNameById(Long id);
 
+    @Query("select p.id from Person p where p.id=?1")
+    Long getIdById(Long id);
+
+    @Query("select CONCAT (p.name, ' ', p.lastname) as fullname from Person p where p.id=?1")
+    String getFullName(Long id);
+
     @Query("select p from Person p where p.id=?1")
     Optional<Person> findOne(Long id);
 
@@ -30,6 +36,12 @@ public interface PersonRepository extends CrudRepository<Person, Long>{
     List<Person> buscarByProgrammingLanguage(String programmingLanguage, String name);
 
     List<Person> findByProgrammingLanguageAndName(String programmingLanguage, String name);
+    
+    @Query("select p.id, p.name, p.lastname, p.programmingLanguage from Person p")
+    List<Object[]> obtenerPersonDataList();
+
+    @Query("select p.id, p.name, p.lastname, p.programmingLanguage from Person p where p.id=?1")
+    Optional <Object> obtenerPersonDataById(Long id);
 
     @Query("select p.name, p.programmingLanguage from Person p")
     List<Object[]> obtenerPersonData();
