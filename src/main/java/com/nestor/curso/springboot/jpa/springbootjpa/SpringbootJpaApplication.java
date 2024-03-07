@@ -87,6 +87,21 @@ public class SpringbootJpaApplication implements CommandLineRunner {
 
 		sc.close();
 	}
+	@Transactional
+	public void delete2() {
+
+		repository.findAll().forEach(System.out::println);
+
+		Scanner sc = new Scanner(System.in);
+		System.out.println("Ingrese el id a eliminar");
+		Long id = sc.nextLong();
+		repository.deleteById(id);
+
+		repository.findAll().forEach(System.out::println);
+
+		sc.close();
+	}
+
 
 	@Transactional
 	public void update() {
