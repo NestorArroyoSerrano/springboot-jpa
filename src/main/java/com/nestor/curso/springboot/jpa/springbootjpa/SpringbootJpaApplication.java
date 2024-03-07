@@ -107,6 +107,21 @@ public class SpringbootJpaApplication implements CommandLineRunner {
 		sc.close();
 	}
 
+	@Transactional(readOnly = true)
+	public void personalizedQueries() {
+
+		Scanner sc = new Scanner(System.in);
+
+		System.out.println("==================== consulta solo el nombre por el id ==================== ");
+		System.out.println("Ingrese el id para el nombre");
+		Long id = sc.nextLong();
+
+		sc.close();
+
+		String name = repository.getNameById(null);
+		System.out.println(name);
+	}
+
 
 	@Transactional
 	public void update() {
@@ -140,10 +155,11 @@ public class SpringbootJpaApplication implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 
 		//findOne();
-		create();
+		//create();
 		//update();
 		//delete();
 		//delete2();
+		personalizedQueries();
 	}
 
 }
