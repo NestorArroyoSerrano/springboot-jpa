@@ -140,7 +140,7 @@ public class SpringbootJpaApplication implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 
 		//findOne();
-		//create();
+		create();
 		//update();
 		//delete();
 		//delete2();
