@@ -11,6 +11,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.nestor.curso.springboot.jpa.springbootjpa.dto.PersonDto;
 import com.nestor.curso.springboot.jpa.springbootjpa.entities.Person;
 import com.nestor.curso.springboot.jpa.springbootjpa.repositories.PersonRepository;
 
@@ -143,6 +144,75 @@ public class SpringbootJpaApplication implements CommandLineRunner {
 	}
 
 
+	@Transactional(readOnly = true)
+	public void personalizedQueries2() {
+
+		System.out.println("==================== consulta por objeto persona y lenguaje de programación ==================== ");
+		List<Object[]> personsRegs = repository.findAllMixPerson();
+		
+		personsRegs.forEach(reg ->{
+			System.out.println("programmingLanguage=" + reg[1] + ", person=");
+		});
+
+		System.out.println("consulta que puebla y devuelve objeto entity de una instancia personalizada");
+		List<Person> persons = repository.findAllObjectPersonPersonalized();
+		persons.forEach(System.out::println);
+
+		System.out.println("consulta que puebla y devuelve objeto dto de una clase personalizada");
+		List<PersonDto> personsDto = repository.findAllPersonDto();
+		personsDto.forEach(System.out::println);
+
+	}
+
+	@Transactional(readOnly = true)
+	public void personalizedQueriesDistinct() {
+		System.out.println("consultas con nombres de personas");
+		List<String> names = repository.findAllNames();
+		names.forEach(System.out::println);
+
+		System.out.println("==================== consultas con nombres unicos de personas ====================");
+		names = repository.findAllNamesDistinct();
+		names.forEach(System.out::println);
+
+		System.out.println("==================== consulta con lenguaje de programación únicas ====================");
+		List<String> languages = repository.findAllProgrammingLanguageDistinct();
+		languages.forEach(System.out::println);
+
+		System.out.println("==================== consulta con total de lenguajes de programación únicas ====================");
+		Long totalLanguage = repository.findAllProgrammingLanguageDistinctCount();
+		System.out.println("total de lenguajes de programación: " + totalLanguage);
+	}
+
+	@Transactional(readOnly = true)
+	public void personalizedQueriesConcatUpperAndLowerCase() {
+	System.out.println("==================== consulta nombres y apellidos de personas ====================");
+	List<String> names = repository.findAllFullNameConcat();
+	names.forEach(System.out::println);
+
+	System.out.println("==================== consulta nombres y apellidos mayúscula ====================");
+	names = repository.findAllFullNameConcatUpper();
+	names.forEach(System.out::println);
+
+	System.out.println("==================== consulta nombres y apellidos minúscula ====================");
+	names = repository.findAllFullNameConcatLower();
+	names.forEach(System.out::println);
+
+	System.out.println("==================== consulta personalizada persona upper y lower case ====================");
+	List<Object[]> regs = repository.findAllPersonDataListCase();
+	regs.forEach(reg ->System.out.println("id=" + reg[0] + ", nombre=" + reg[1] + ", apellido=" + reg[2]+ ", lenguaje=" +reg[3]));
+	
+	}
+
+	@Transactional(readOnly = true)
+	public void personalizedQueriesBetween() {
+
+		System.out.println("==================== consultas por rangos====================");
+		List<Person> persons = repository.findAllBetweenId();
+		persons.forEach(System.out::println);
+
+		persons = repository.findAllBetweenName();
+		persons.forEach(System.out::println);
+	}
 	@Transactional
 	public void update() {
 
@@ -179,7 +249,11 @@ public class SpringbootJpaApplication implements CommandLineRunner {
 		//update();
 		//delete();
 		//delete2();
-		personalizedQueries();
+		//personalizedQueries();
+		//personalizedQueries2();
+		//personalizedQueriesDistinct();
+		//personalizedQueriesConcatUpperAndLowerCase();
+		personalizedQueriesBetween();
 	}
 
 }
