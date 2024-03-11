@@ -243,6 +243,25 @@ public class SpringbootJpaApplication implements CommandLineRunner {
 	//	});
 		sc.close();
 	}
+	@Transactional
+	public void queriesFunctionAggregation() {
+
+	System.out.println("==================== consulta con el total de registros de la tabla persona ====================");
+	Long count = repository.totalPerson();
+	System.out.println(count);
+
+	System.out.println("==================== consultas con el valor mínimo del id ====================");
+	Long min = repository.minId();
+	System.out.println(min);
+
+	System.out.println("==================== consultas con el valor máximo del id ====================");
+	Long max = repository.maxId();
+	System.out.println(max);
+
+	
+
+
+	}
 
 	@Override
 	public void run(String... args) throws Exception {
@@ -256,7 +275,8 @@ public class SpringbootJpaApplication implements CommandLineRunner {
 		//personalizedQueries2();
 		//personalizedQueriesDistinct();
 		//personalizedQueriesConcatUpperAndLowerCase();
-		personalizedQueriesBetween();
+		//personalizedQueriesBetween();
+		queriesFunctionAggregation();
 	}
 
 }
