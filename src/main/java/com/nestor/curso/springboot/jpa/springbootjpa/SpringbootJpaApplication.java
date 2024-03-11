@@ -1,6 +1,7 @@
 package com.nestor.curso.springboot.jpa.springbootjpa;
 
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
@@ -243,6 +244,9 @@ public class SpringbootJpaApplication implements CommandLineRunner {
 	//	});
 		sc.close();
 	}
+
+
+
 	@Transactional
 	public void queriesFunctionAggregation() {
 
@@ -267,7 +271,7 @@ public class SpringbootJpaApplication implements CommandLineRunner {
 			Integer length = (Integer) reg[1];
 			System.out.println("name=" + name + ", length=" + length);
 		});
-		
+
 		System.out.println("==================== consulta con el nombre más corto ====================");
 		Integer minLengthName = repository.getMinLengthName();
 		System.out.println(minLengthName);
@@ -276,7 +280,40 @@ public class SpringbootJpaApplication implements CommandLineRunner {
 		Integer maxLengthName = repository.getMaxLengthName();
 		System.out.println(maxLengthName);
 
+		System.out.println("==================== consultas resumen de funciones de agregación min, max, sum, avg, count ====================");
+		Object[] resumeReg = (Object[]) repository.getResumeneAggregationFunction();
+		
+		System.out.println(
+		"min=" + resumeReg[0] +
+		 ", max=" + resumeReg[1] + 
+		 ", sum=" + resumeReg[2] + 
+		 ", avg=" + resumeReg[3] +
+		 ", count=" + resumeReg[4]);
 	}
+
+	
+	@Transactional(readOnly=true)
+	public void subQueries() {
+		System.out.println("==================== consulta por el nombre más corto y su largo ====================");
+		List<Object[]> registers = repository.getShorterName();
+		registers.forEach(reg -> {
+			String name = (String) reg[0];
+			Integer length = (Integer) reg[1];
+			System.out.println("name=" + name + ", length=" + length);
+
+			System.out.println("==================== consulta para obtener el último registro de persona ====================");
+			Optional<Person> optionalPerson = repository.getLastRegistration();
+			optionalPerson.ifPresent(person->System.out.println(person)); // (System.out::println)
+	});
+}
+
+	@Transactional(readOnly=true)
+		public void whereIn() {
+			System.out.println("==================== consulta where in ====================");
+			List<Person> persons = repository.getPersonByIds(Arrays.asList(1L, 2L, 5L, 7L));
+			persons.forEach(System.out::println);
+		}
+
 
 	@Override
 	public void run(String... args) throws Exception {
@@ -291,7 +328,9 @@ public class SpringbootJpaApplication implements CommandLineRunner {
 		//personalizedQueriesDistinct();
 		//personalizedQueriesConcatUpperAndLowerCase();
 		//personalizedQueriesBetween();
-		queriesFunctionAggregation();
+		//queriesFunctionAggregation();
+		//subQueries();
+		whereIn();
 	}
 
 }

@@ -11,6 +11,17 @@ import com.nestor.curso.springboot.jpa.springbootjpa.entities.Person;
 
 public interface PersonRepository extends CrudRepository<Person, Long>{
 
+  @Query("select p from Person p where p.id in ?1")
+  public List <Person> getPersonByIds(List<Long> ids);
+
+  @Query("select p.name, length(p.name) from Person p where length(p.name)=(select min(length(p.name)) from Person p)")
+  public List<Object []> getShorterName() ; 
+
+  @Query("select p from Person p where p.id=(select max(p.id) from Person p)")
+  public Optional<Person> getLastRegistration();
+
+  @Query("select min(p.id), max(p.id), sum(p.id), avg(length(p.name)), count(p.id) from Person p")
+  public Object getResumeneAggregationFunction();
 
   @Query("select min(length(p.name)) from Person p")
   public Integer getMinLengthName();
