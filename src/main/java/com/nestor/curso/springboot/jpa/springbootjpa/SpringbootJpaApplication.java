@@ -320,7 +320,7 @@ public class SpringbootJpaApplication implements CommandLineRunner {
 
 		//findOne();
 		//create();
-		//update();
+		update();
 		//delete();
 		//delete2();
 		//personalizedQueries();
@@ -330,7 +330,8 @@ public class SpringbootJpaApplication implements CommandLineRunner {
 		//personalizedQueriesBetween();
 		//queriesFunctionAggregation();
 		//subQueries();
-		whereIn();
+		//whereIn();
+		
 	}
 
 }
